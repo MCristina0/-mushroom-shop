@@ -1,29 +1,26 @@
 
 body {
-    background-color: rgb(250, 232, 211);
+  background-color: rgb(250, 232, 211);
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
   }
   /*cabezera-------------------------------------------------------------------------*/
   header {
-
     background-color: brown;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   }
   .header {
     display: flex;
     background-color: brown;
     margin: 0px;
-    padding: 10px;
+    padding: 5px;
     width: auto;
   }
     /*carittoooo --------------------------------------------------------------------*/
-    #addCar{
-      display: flex;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 10%;
-      background-color: rgb(255, 68, 68);
-    }
+  
     .space{
       width: 70%;
   
@@ -49,18 +46,23 @@ body {
   }
 
   /*items de tiendaaaa---------------------------------------------------------------------------        */
-  .Cart-item    {
- 
-    background-color: rgb(255, 255, 255);
-    padding: 2rem;
-    width:150px ;
-    height: 350px;
-   border-radius: 10px;
-    border-color: black;
-    padding: 15px;
-    margin: 10px;
-
-  }
+  .Cart-item   {
+      background-color: rgb(255, 255, 255);
+      padding: 15px;
+      width: 160px;
+      height: 360px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .Cart-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+  
   .empty{
     width: 100%;
     text-align: center;
@@ -81,15 +83,21 @@ body {
   }
 
   h3{text-align: left;}
-  .removeItem{
+
+  .removeCar {
+    border: none;
+    border-radius: 20px;
     display: flex;
-    text-align: center;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 10%;
+    height: 40px;
     background-color: rgb(255, 68, 68);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
-
-
   
+  .removeCar:hover {
+    background-color: rgb(206, 3, 3);
+  }

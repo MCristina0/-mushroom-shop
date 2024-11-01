@@ -21,13 +21,14 @@ const products = [
   { id: 20, name: "Trufas", price: 9.99, stack: 100, img: 'img/Trufas.jpeg' }
 ];
 
-let cart = JSON.parse(localStorage.getItem('cart')) || []; 
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 function renderizarStore(products) {
   let html = '';
   
   products.forEach(function(product) {
     html += `
+          
       <div class="Store-item">
         <img src="${product.img}" width="150px" />
         <h3>${product.name}</h3>
@@ -46,11 +47,11 @@ function renderizarStore(products) {
   });
 }
 
-function addToCart(id) {
-  
-  const product = products.find(p => p.id === id);
-  if (product && product.stack > 0) {
 
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  
+  if (product && product.stack > 0) {
     product.stack -= 1;
 
     const cartItem = cart.find(item => item.id === id);
@@ -60,7 +61,7 @@ function addToCart(id) {
       cart.push({ ...product, quantity: 1 });
     }
 
-    actualizarCarritoLocalStorage();
+    actualizarLocalStorage();
     renderizarCarrito();
     renderizarStore(products); 
   } else {
@@ -68,57 +69,52 @@ function addToCart(id) {
   }
 }
 
-function removeFromCart(index) {
-  const product = cart[index];
+function removeFromCart(id) {
+  const cartItem = cart.find(item => item.id === id);
+  const product = products.find(p => p.id === id);
+  
+  if (cartItem) {
+    cartItem.quantity -= 1;
+    product.stack += 1;
 
+    if (cartItem.quantity === 0) {
+      // Elimina el producto del carrito si la cantidad es 0
+      cart = cart.filter(item => item.id !== id);
+    }
 
-  const storeProduct = products.find(p => p.id === product.id);
-  if (storeProduct) {
-    storeProduct.stack += product.quantity;
+    actualizarLocalStorage();
+    renderizarCarrito();
+    renderizarStore(products);
   }
-
-
-  cart.splice(index, 1);
-  actualizarCarritoLocalStorage();
-  renderizarCarrito();
-  renderizarStore(products); 
 }
 
-function actualizarCarritoLocalStorage() {
+function actualizarLocalStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
+  localStorage.setItem('products', JSON.stringify(products));
 }
 
 function renderizarCarrito() {
   let html = '';
-
-  if (cart.length === 0) {
-    html = '<p class="empty">El carrito está vacío</p>';
-  } else {
-    cart.forEach(function(item, index) {
-      html += `
-        <div class="Cart-item">
-         <img src="${item.img}" width="150px" />
-          <h4>${item.name}</h4>
-          <p>Precio: ${item.price}</p>
-          <p>Cantidad: ${item.quantity}</p>
-          <button class="removeItem" data-index="${index}">Eliminar</button>
-        </div>
-            <br>
-                <br>
-
-      `;
-    });
-    const total = calcularTotalCarrito();
+  
+  cart.forEach(function(item) {
+    html += `
+      <div class="Cart-item">
+          <img src="${item.img}" width="150px" />
+        <h4>${item.name}</h4>
+        <p>Precio: ${item.price}</p>
+        <p>Cantidad: ${item.quantity}</p>
+        <button class="removeCar" data-id="${item.id}">Eliminar uno</button>
+      </div>
+    `;
+  });
+  const total = calcularTotalCarrito();
     html += `<p class="total">Total del carrito: $${total}</p>`;
-  }
-
 
   $('#store-car').html(html);
 
-
-  $('.removeItem').on('click', function() {
-    const itemIndex = $(this).data('index');
-    removeFromCart(itemIndex);
+  $('.removeCar').on('click', function() {
+    const productId = $(this).data('id');
+    removeFromCart(productId);
   });
 }
 
