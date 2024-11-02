@@ -23,7 +23,7 @@ header {
 
 h1 {
   font-size: 2em;
-  width: 90%;
+  width: 200%;
   color: black;
 }
 .space{
@@ -53,7 +53,7 @@ h1 {
 
 
 .img-carrito {
-  justify-content: flex-end;
+  justify-content: right;
   text-align: right;
   width: 20%;
 }
